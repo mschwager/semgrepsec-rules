@@ -1,0 +1,32 @@
+rules:
+- id: hashlib-length-extension
+  patterns:
+    - pattern-either:
+      - pattern: |
+          hashlib.$ALGORITHM($VAR + ...)
+      - pattern: |
+          $HASH = hashlib.$ALGORITHM()
+          ...
+          $HASH.update($VAR)
+          ...
+          $HASH.update(...)
+      - pattern: |
+          $HASH = hashlib.new("$ALGORITHM")
+          ...
+          $HASH.update($VAR)
+          ...
+          $HASH.update(...)
+    - metavariable-regex:
+        metavariable: $ALGORITHM
+        regex: (md2|md4|md5|sha1|sha224|sha256|sha384|sha512)
+    - metavariable-regex:
+        metavariable: $VAR
+        regex: (?i).*(key|secret|token).*
+  metadata:
+    references:
+    - https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction
+    - https://en.wikipedia.org/wiki/Length_extension_attack
+    - https://crypto.stackexchange.com/questions/3978/understanding-the-length-extension-attack
+  message: Creating a MAC by prepending with a secret is vulnerable to length extension attacks.
+  languages: [python]
+  severity: ERROR
