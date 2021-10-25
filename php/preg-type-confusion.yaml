@@ -1,0 +1,21 @@
+rules:
+- id: preg-match-error-checking
+  patterns:
+  - pattern-either:
+    - pattern: |
+        if ($FUNC(...)) {
+            ...
+        }
+    - pattern: |
+        if (!$FUNC(...)) {
+            ...
+        }
+  - metavariable-regex:
+      metavariable: '$FUNC'
+      regex: '(preg_match|preg_match_all)'
+  message: Regular expression function '$FUNC' returns falsey value on failure or error.
+  metadata:
+    references:
+    - https://www.php.net/manual/en/ref.pcre.php
+  languages: [php]
+  severity: ERROR

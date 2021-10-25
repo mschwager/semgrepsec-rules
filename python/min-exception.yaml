@@ -1,0 +1,33 @@
+rules:
+- id: min-missing-except
+  patterns:
+    - pattern: min(...)
+    - pattern-not-inside: |
+        try:
+            ...
+        except:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except ValueError:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except ValueError as $E:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except Exception:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except Exception as $E:
+            ...
+  message: Call to 'min' throws 'ValueError' on empty iterable.
+  languages:
+  - python
+  severity: ERROR

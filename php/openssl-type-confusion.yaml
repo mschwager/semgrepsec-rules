@@ -1,0 +1,21 @@
+rules:
+- id: openssl-verify-error-checking
+  patterns:
+  - pattern-either:
+    - pattern: |
+        if ($FUNC(...)) {
+            ...
+        }
+    - pattern: |
+        if (!$FUNC(...)) {
+            ...
+        }
+  - metavariable-regex:
+      metavariable: '$FUNC'
+      regex: '(openssl_verify|openssl_x509_verify|openssl_pkcs7_verify)'
+  message: Verify function '$FUNC' returns truthy value on success or error.
+  metadata:
+    references:
+    - https://www.php.net/manual/en/ref.openssl.php
+  languages: [php]
+  severity: ERROR

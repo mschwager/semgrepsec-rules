@@ -1,0 +1,13 @@
+rules:
+- id: pycryptodome-const-iv
+  pattern-either:
+    - pattern: Crypto.Cipher.$ALGORITHM.new(..., iv=b"...")
+    - pattern: Crypto.Cipher.$ALGORITHM.new(..., nonce=b"...")
+    - pattern: Cryptodome.Cipher.$ALGORITHM.new(..., iv=b"...")
+    - pattern: Cryptodome.Cipher.$ALGORITHM.new(..., nonce=b"...")
+  metadata:
+    references:
+    - https://www.pycryptodome.org/en/latest/src/cipher/classic.html
+  message: Using a constant initialization vector is cryptographically insecure.
+  languages: [python]
+  severity: ERROR

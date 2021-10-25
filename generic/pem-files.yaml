@@ -1,0 +1,36 @@
+rules:
+- id: pem-file-detected
+  pattern-either:
+    - pattern: "---- BEGIN SSH2 PUBLIC KEY ----"
+    - pattern: "-----BEGIN X509 CERTIFICATE-----"
+    - pattern: "-----BEGIN CERTIFICATE-----"
+    - pattern: "-----BEGIN TRUSTED CERTIFICATE-----"
+    - pattern: "-----BEGIN NEW CERTIFICATE REQUEST-----"
+    - pattern: "-----BEGIN CERTIFICATE REQUEST-----"
+    - pattern: "-----BEGIN X509 CRL-----"
+    - pattern: "-----BEGIN ANY PRIVATE KEY-----"
+    - pattern: "-----BEGIN PUBLIC KEY-----"
+    - pattern: "-----BEGIN RSA PRIVATE KEY-----"
+    - pattern: "-----BEGIN RSA PUBLIC KEY-----"
+    - pattern: "-----BEGIN DSA PRIVATE KEY-----"
+    - pattern: "-----BEGIN DSA PUBLIC KEY-----"
+    - pattern: "-----BEGIN PKCS7-----"
+    - pattern: "-----BEGIN PKCS #7 SIGNED DATA-----"
+    - pattern: "-----BEGIN ENCRYPTED PRIVATE KEY-----"
+    - pattern: "-----BEGIN PRIVATE KEY-----"
+    - pattern: "-----BEGIN DH PARAMETERS-----"
+    - pattern: "-----BEGIN X9.42 DH PARAMETERS-----"
+    - pattern: "-----BEGIN SSL SESSION PARAMETERS-----"
+    - pattern: "-----BEGIN DSA PARAMETERS-----"
+    - pattern: "-----BEGIN ECDSA PUBLIC KEY-----"
+    - pattern: "-----BEGIN EC PARAMETERS-----"
+    - pattern: "-----BEGIN EC PRIVATE KEY-----"
+    - pattern: "-----BEGIN PARAMETERS-----"
+    - pattern: "-----BEGIN CMS-----"
+  metadata:
+    references:
+    - https://github.com/openssl/openssl/blob/master/include/openssl/pem.h
+  message: Found PEM formatted key or certificate.
+  languages:
+  - generic
+  severity: ERROR

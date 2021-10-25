@@ -1,0 +1,27 @@
+rules:
+- id: in-array-loose-type
+  pattern-either:
+  - patterns:
+    - pattern: |
+        if (in_array(...)) {
+            ...
+        }
+    - pattern-not: |
+        if (in_array(..., ..., true)) {
+            ...
+        }
+  - patterns:
+    - pattern: |
+        if (!in_array(...)) {
+            ...
+        }
+    - pattern-not: |
+        if (!in_array(..., ..., true)) {
+            ...
+        }
+  message: Array function 'in_array' may not behave as expected without strict type checking.
+  metadata:
+    references:
+    - https://www.php.net/manual/en/function.in-array.php
+  languages: [php]
+  severity: ERROR

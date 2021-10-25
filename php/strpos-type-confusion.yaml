@@ -1,0 +1,21 @@
+rules:
+- id: strpos-return-types
+  patterns:
+  - pattern-either:
+    - pattern: |
+        if ($FUNC(...)) {
+            ...
+        }
+    - pattern: |
+        if (!$FUNC(...)) {
+            ...
+        }
+  - metavariable-regex:
+      metavariable: '$FUNC'
+      regex: '(strpos|stripos|strrpos|strripos)'
+  message: String function '$FUNC' returns falsey value on zero index and not found.
+  metadata:
+    references:
+    - https://www.php.net/manual/en/function.strpos
+  languages: [php]
+  severity: ERROR

@@ -1,0 +1,33 @@
+rules:
+- id: zero-division-missing-except
+  patterns:
+    - pattern: $NUMERATOR / $DENOMINATOR
+    - pattern-not-inside: |
+        try:
+            ...
+        except:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except ZeroDivisionError:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except ZeroDivisionError as $E:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except Exception:
+            ...
+    - pattern-not-inside: |
+        try:
+            ...
+        except Exception as $E:
+            ...
+  message: Division without considering 'ZeroDivisionError'.
+  languages:
+  - python
+  severity: ERROR

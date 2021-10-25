@@ -1,0 +1,11 @@
+rules:
+- id: create-function-eval
+  patterns:
+  - pattern: create_function(...);
+  - pattern-not: create_function('...', '...');
+  message: This function internally performs an eval() and as such has the same security issues as eval().
+  metadata:
+    references:
+    - https://www.php.net/manual/en/function.create-function.php
+  languages: [php]
+  severity: ERROR

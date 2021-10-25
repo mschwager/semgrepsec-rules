@@ -1,0 +1,32 @@
+rules:
+- id: cryptography-const-iv
+  pattern-either:
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.CBC(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.CTR(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.OFB(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.CFB(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.CFB8(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.modes.GCM(b"...", ...)
+    - pattern: cryptography.hazmat.primitives.ciphers.algorithms.ChaCha20($KEY, b"...", ...)
+    - pattern: cryptography.hazmat.primitives.poly1305.Poly1305(b"...", ...)
+    - pattern: |
+        $CHACHA = cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305(...)
+        ...
+        $CHACHA.encrypt(b"...", ...)
+    - pattern: |
+        $AESGCM = cryptography.hazmat.primitives.ciphers.aead.AESGCM(...)
+        ...
+        $AESGCM.encrypt(b"...", ...)
+    - pattern: |
+        $AESCCM = cryptography.hazmat.primitives.ciphers.aead.AESCCM(...)
+        ...
+        $AESCCM.encrypt(b"...", ...)
+  metadata:
+    references:
+    - https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#module-cryptography.hazmat.primitives.ciphers.modes
+    - https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#algorithms
+    - https://cryptography.io/en/latest/hazmat/primitives/mac/poly1305/#poly1305
+    - https://cryptography.io/en/latest/hazmat/primitives/aead/#module-cryptography.hazmat.primitives.ciphers.aead
+  message: Using a constant initialization vector or nonce is cryptographically insecure.
+  languages: [python]
+  severity: ERROR
