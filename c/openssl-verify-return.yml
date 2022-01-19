@@ -1,0 +1,33 @@
+rules:
+- id: openssl-verify-return
+  patterns:
+  - pattern-either:
+    - pattern: |
+        if ($FUNC(...)) {
+            ...
+        }
+    - pattern: |
+        if (!$FUNC(...)) {
+            ...
+        }
+  - metavariable-pattern:
+      metavariable: $FUNC
+      pattern-either:
+        - pattern: X509_verify_cert
+        - pattern: X509_STORE_CTX_verify
+        - pattern: X509_verify
+        - pattern: X509_REQ_verify_ex
+        - pattern: X509_REQ_verify
+        - pattern: X509_CRL_verify
+        - pattern: DSA_verify
+        - pattern: DSA_do_verify
+        - pattern: ECDSA_verify
+        - pattern: ECDSA_do_verify
+        - pattern: EVP_PKEY_verify
+        - pattern: OSCP_basic_verify
+  message: Verify function '$FUNC' returns truthy value on success or error.
+  metadata:
+    references:
+    - https://www.openssl.org/docs/man3.0/man3/
+  languages: [c]
+  severity: WARNING
