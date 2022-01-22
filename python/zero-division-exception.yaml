@@ -28,6 +28,5 @@ rules:
         except Exception as $E:
             ...
   message: Division without considering 'ZeroDivisionError'.
-  languages:
-  - python
+  languages: [python]
   severity: ERROR

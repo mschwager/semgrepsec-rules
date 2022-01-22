@@ -28,6 +28,5 @@ rules:
         except Exception as $E:
             ...
   message: Call to 'max' throws 'ValueError' on empty iterable.
-  languages:
-  - python
+  languages: [python]
   severity: ERROR
